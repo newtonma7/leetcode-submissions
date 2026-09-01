@@ -15,20 +15,20 @@ class Solution:
         '''
         rows = len(board)
         cols = len(board[0])
-        visited = set()
 
         def dfs(r, c, i):
             if i == len(word):
                 return True
-            if r >= rows or c >= cols or r < 0 or c < 0 or board[r][c] != word[i] or (r,c) in visited:
+            if r >= rows or c >= cols or r < 0 or c < 0 or board[r][c] != word[i] or board[r][c] == '#':
                 return
 
-            visited.add((r,c))
-            i += 1
+            temp = board[r][c]
+            board[r][c] = '#'
 
+            i += 1
             res = dfs(r+1, c,i) or dfs(r, c+1,i) or dfs(r-1, c, i) or dfs(r, c-1, i)
 
-            visited.remove((r,c))
+            board[r][c] = temp
             return res
         
         for r in range(rows):
