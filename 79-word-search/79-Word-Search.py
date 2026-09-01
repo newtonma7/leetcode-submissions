@@ -17,27 +17,22 @@ class Solution:
         cols = len(board[0])
         visited = set()
 
-        def dfs(r, c, curr, i):
-            if r >= rows or c >= cols or r < 0 or c < 0 or i >= len(word) or (r,c) in visited:
-                return
-            if board[r][c] != word[i]:
-                return
-
-
-            curr += board[r][c]
-            visited.add((r,c))
-            if curr == word:
+        def dfs(r, c, i):
+            if i == len(word):
                 return True
+            if r >= rows or c >= cols or r < 0 or c < 0 or board[r][c] != word[i] or (r,c) in visited:
+                return
+
+            visited.add((r,c))
             i += 1
 
-            if dfs(r+1, c, curr,i) or dfs(r, c+1, curr,i) or dfs(r-1, c, curr,i) or dfs(r, c-1, curr,i):
-                return True
+            res = dfs(r+1, c,i) or dfs(r, c+1,i) or dfs(r-1, c, i) or dfs(r, c-1, i)
 
             visited.remove((r,c))
-            return False
+            return res
         
         for r in range(rows):
             for c in range(cols):
-                if dfs(r,c, "",0):
+                if dfs(r,c,0):
                     return True
         return False
